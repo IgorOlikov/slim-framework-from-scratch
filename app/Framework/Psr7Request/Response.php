@@ -7,6 +7,7 @@ use Framework\Psr\Http\Message\ResponseInterface;
 use Framework\Psr\Http\Message\StreamInterface;
 use Framework\Psr7Request\Factory\StreamFactory;
 use Framework\Psr7Request\Interfaces\HeadersInterface;
+use InvalidArgumentException;
 use Override;
 
 class Response extends Message implements ResponseInterface
@@ -102,18 +103,66 @@ class Response extends Message implements ResponseInterface
         $this->body = $body ?: (new StreamFactory())->createStream();
     }
 
+    public function __clone(): void
+    {
+        $this->headers = clone $this->headers;
+    }
+
     #[Override] public function getStatusCode(): int
     {
-        // TODO: Implement getStatusCode() method.
+        return $this->status;
     }
 
     #[Override] public function withStatus(int $code, string $reasonPhrase = ''): ResponseInterface
     {
-        // TODO: Implement withStatus() method.
+        $code = $this->filterStatus($code);
+        $reasonPhrase = $this->filterReasonPhrase($reasonPhrase);
+
+        $clone = clone $this;
+        $clone->status = $code;
+        $clone->reasonPhrase = $reasonPhrase;
+
+        return $clone;
     }
 
     #[Override] public function getReasonPhrase(): string
     {
-        // TODO: Implement getReasonPhrase() method.
+        if ($this->reasonPhrase !== '') {
+            return $this->reasonPhrase;
+        }
+
+        if (isset(static::$messages[$this->status])) {
+            return static::$messages[$this->status];
+        }
+
+        return '';
+    }
+
+    protected function filterStatus($status): int
+    {
+        if (!is_integer($status) || $status < StatusCodeInterface::STATUS_CONTINUE || $status > 599) {
+            throw new InvalidArgumentException('Invalid HTTP status code.');
+        }
+
+        return $status;
+    }
+
+    protected function filterReasonPhrase($reasonPhrase = ''): string
+    {
+        if (is_object($reasonPhrase) && method_exists($reasonPhrase, '__toString')) {
+            $reasonPhrase = (string) $reasonPhrase;
+        }
+
+        if (!is_string($reasonPhrase)) {
+            throw new InvalidArgumentException('Response reason phrase must be a string.');
+        }
+
+        if (strpos($reasonPhrase, "\r") !== false || strpos($reasonPhrase, "\n") !== false) {
+            throw new InvalidArgumentException(
+                'Reason phrase contains one of the following prohibited characters: \r \n'
+            );
+        }
+
+        return $reasonPhrase;
     }
 }
