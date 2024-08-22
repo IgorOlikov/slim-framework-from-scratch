@@ -3,6 +3,8 @@
 namespace Framework\Core\Factory;
 
 use Framework\Core\App;
+use Framework\Core\Factory\Psr17\Psr17Factory;
+use Framework\Core\Factory\Psr17\Psr17FactoryProvider;
 use Framework\Core\Interfaces\CallableResolverInterface;
 use Framework\Core\Interfaces\MiddlewareDispatcherInterface;
 use Framework\Core\Interfaces\Psr17FactoryProviderInterface;
