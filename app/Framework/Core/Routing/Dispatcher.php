@@ -11,7 +11,7 @@ class Dispatcher implements DispatcherInterface
 {
     private RouteCollectorInterface $routeCollector;
 
-    private ?RouterDispatcher $dispatcher = null;
+    private ?RouteDispatcher $dispatcher = null;
 
     public function __construct(RouteCollectorInterface $routeCollector)
     {
