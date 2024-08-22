@@ -5,7 +5,7 @@ namespace Framework\Psr7;
 use Framework\Psr\Http\Message\StreamInterface;
 use Override;
 
-class Stream implements StreamInterface
+class NonBufferedBody implements StreamInterface
 {
 
     public function __toString(): string

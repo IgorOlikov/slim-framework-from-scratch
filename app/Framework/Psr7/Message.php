@@ -5,6 +5,7 @@ namespace Framework\Psr7;
 use Framework\Psr\Http\Message\MessageInterface;
 use Framework\Psr\Http\Message\StreamInterface;
 use Framework\Psr7\Interfaces\HeadersInterface;
+use InvalidArgumentException;
 use Override;
 
 class Message implements MessageInterface
@@ -29,56 +30,91 @@ class Message implements MessageInterface
 
     #[Override] public function getProtocolVersion(): string
     {
-        // TODO: Implement getProtocolVersion() method.
+        return $this->protocolVersion;
     }
 
     #[Override] public function withProtocolVersion(string $version): MessageInterface
     {
-        // TODO: Implement withProtocolVersion() method.
+        if (!isset(self::$validProtocolVersions[$version])) {
+            throw new InvalidArgumentException(
+                'Invalid HTTP version. Must be one of: '
+                . implode(', ', array_keys(self::$validProtocolVersions))
+            );
+        }
+
+        $clone = clone $this;
+        $clone->protocolVersion = $version;
+
+        return $clone;
     }
 
     #[Override] public function getHeaders(): array
     {
-        // TODO: Implement getHeaders() method.
+        return $this->headers->getHeaders(true);
     }
 
     #[Override] public function hasHeader(string $name): bool
     {
-        // TODO: Implement hasHeader() method.
+        return $this->headers->hasHeader($name);
     }
 
     #[Override] public function getHeader(string $name): array
     {
-        // TODO: Implement getHeader() method.
+        return $this->headers->getHeader($name);
     }
 
     #[Override] public function getHeaderLine(string $name): string
     {
-        // TODO: Implement getHeaderLine() method.
+        $values = $this->headers->getHeader($name);
+        return implode(',', $values);
     }
 
     #[Override] public function withHeader(string $name, $value): MessageInterface
     {
-        // TODO: Implement withHeader() method.
+        $clone = clone $this;
+        $clone->headers->setHeader($name, $value);
+
+        if ($this instanceof Response && $this->body instanceof NonBufferedBody) {
+            header(sprintf('%s: %s', $name, $clone->getHeaderLine($name)));
+        }
+
+        return $clone;
     }
 
     #[Override] public function withAddedHeader(string $name, $value): MessageInterface
     {
-        // TODO: Implement withAddedHeader() method.
+        $clone = clone $this;
+        $clone->headers->addHeader($name, $value);
+
+        if ($this instanceof Response && $this->body instanceof NonBufferedBody) {
+            header(sprintf('%s: %s', $name, $clone->getHeaderLine($name)));
+        }
+
+        return $clone;
     }
 
     #[Override] public function withoutHeader(string $name): MessageInterface
     {
-        // TODO: Implement withoutHeader() method.
+        $clone = clone $this;
+        $clone->headers->removeHeader($name);
+
+        if ($this instanceof Response && $this->body instanceof NonBufferedBody) {
+            header_remove($name);
+        }
+
+        return $clone;
     }
 
     #[Override] public function getBody(): StreamInterface
     {
-        // TODO: Implement getBody() method.
+        return $this->body;
     }
 
     #[Override] public function withBody(StreamInterface $body): MessageInterface
     {
-        // TODO: Implement withBody() method.
+        $clone = clone $this;
+        $clone->body = $body;
+
+        return $clone;
     }
 }
