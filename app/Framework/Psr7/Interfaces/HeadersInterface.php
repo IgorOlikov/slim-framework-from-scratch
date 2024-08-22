@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Psr7Request\Interfaces;
+namespace Framework\Psr7\Interfaces;
 
 interface HeadersInterface
 {

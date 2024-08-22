@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Psr7Request;
+namespace Framework\Psr7;
 
-use Framework\Psr7Request\Interfaces\HeadersInterface;
+use Framework\Psr7\Interfaces\HeadersInterface;
 use InvalidArgumentException;
 use Override;
 

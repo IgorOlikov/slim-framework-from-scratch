@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Psr7Request\Factory;
+namespace Framework\Psr7\Factory;
 
 use Framework\Psr\Http\Factory\StreamFactoryInterface;
 use Framework\Psr\Http\Message\StreamInterface;

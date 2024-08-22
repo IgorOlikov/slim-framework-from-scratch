@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Psr7Request;
+namespace Framework\Psr7;
 
 class Header
 {
