@@ -2,7 +2,7 @@
 
 namespace Framework\Core\Interfaces;
 
-interface AdvancedCallableResolveInterface
+interface AdvancedCallableResolverInterface extends CallableResolverInterface
 {
     public function resolveRoute($toResolve): callable;
 

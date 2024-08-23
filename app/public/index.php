@@ -6,4 +6,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 
 
-AppFactory::determineResponseFactory();
+$app = AppFactory::create();
+
+
+dd($app);
