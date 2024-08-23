@@ -16,7 +16,9 @@ class UploadedFileFactory implements UploadedFileFactoryInterface
         int                             $error = UPLOAD_ERR_OK,
         ?string                         $clientFilename = null,
         ?string                         $clientMediaType = null
-    ): UploadedFileInterface {
+    )
+        : UploadedFileInterface
+    {
         $file = $stream->getMetadata('uri');
 
         if (!is_string($file) || !$stream->isReadable()) {

@@ -5,6 +5,7 @@ namespace Framework\Core\Factory;
 use Framework\Core\App;
 use Framework\Core\Factory\Psr17\Psr17Factory;
 use Framework\Core\Factory\Psr17\Psr17FactoryProvider;
+use Framework\Core\Factory\Psr17\SlimHttpPsr17Factory;
 use Framework\Core\Interfaces\CallableResolverInterface;
 use Framework\Core\Interfaces\MiddlewareDispatcherInterface;
 use Framework\Core\Interfaces\Psr17FactoryProviderInterface;
@@ -14,6 +15,8 @@ use Framework\Psr\Container\ContainerInterface;
 use Framework\Psr\Http\Factory\ResponseFactoryInterface;
 use Framework\Psr\Http\Factory\StreamFactoryInterface;
 use RuntimeException;
+
+
 
 class AppFactory
 {
