@@ -4,82 +4,137 @@ namespace Framework\Psr7;
 
 use Framework\Psr\Http\Message\StreamInterface;
 use Override;
+use RuntimeException;
 
 class NonBufferedBody implements StreamInterface
 {
 
+    /**
+     * {}
+     */
     public function __toString(): string
     {
-        // TODO: Implement __toString() method.
+        return '';
     }
 
-    #[Override] public function close(): void
+    /**
+     * {}
+     */
+    public function close(): void
     {
-        // TODO: Implement close() method.
+        throw new RuntimeException('A NonBufferedBody is not closable.');
     }
 
-    #[Override] public function detach()
+    /**
+     * {}
+     */
+    public function detach(): null
     {
-        // TODO: Implement detach() method.
+        return null;
     }
 
-    #[Override] public function getSize(): ?int
+    /**
+     * {}
+     */
+    public function getSize(): ?int
     {
-        // TODO: Implement getSize() method.
+        return null;
     }
 
-    #[Override] public function tell(): int
+    /**
+     * {}
+     */
+    public function tell(): int
     {
-        // TODO: Implement tell() method.
+        return 0;
     }
 
-    #[Override] public function eof(): bool
+    /**
+     * {}
+     */
+    public function eof(): bool
     {
-        // TODO: Implement eof() method.
+        return true;
     }
 
-    #[Override] public function isSeekable(): bool
+    /**
+     * {}
+     */
+    public function isSeekable(): bool
     {
-        // TODO: Implement isSeekable() method.
+        return false;
     }
 
-    #[Override] public function seek(int $offset, int $whence = SEEK_SET): void
+    /**
+     * {}
+     */
+    public function seek($offset, $whence = SEEK_SET): void
     {
-        // TODO: Implement seek() method.
+        throw new RuntimeException('A NonBufferedBody is not seekable.');
     }
 
-    #[Override] public function rewind(): void
+    /**
+     * {}
+     */
+    public function rewind(): void
     {
-        // TODO: Implement rewind() method.
+        throw new RuntimeException('A NonBufferedBody is not rewindable.');
     }
 
-    #[Override] public function isWritable(): bool
+    /**
+     * {}
+     */
+    public function isWritable(): bool
     {
-        // TODO: Implement isWritable() method.
+        return true;
     }
 
-    #[Override] public function write(string $string): int
+    /**
+     * {}
+     */
+    public function write($string): int
     {
-        // TODO: Implement write() method.
+        $buffered = '';
+        while (0 < ob_get_level()) {
+            $buffered = ob_get_clean() . $buffered;
+        }
+
+        echo $buffered . $string;
+
+        flush();
+
+        return strlen($string) + strlen($buffered);
     }
 
-    #[Override] public function isReadable(): bool
+    /**
+     * {}
+     */
+    public function isReadable(): bool
     {
-        // TODO: Implement isReadable() method.
+        return false;
     }
 
-    #[Override] public function read(int $length): string
+    /**
+     * {}
+     */
+    public function read($length): string
     {
-        // TODO: Implement read() method.
+        throw new RuntimeException('A NonBufferedBody is not readable.');
     }
 
-    #[Override] public function getContents(): string
+    /**
+     * {}
+     */
+    public function getContents(): string
     {
-        // TODO: Implement getContents() method.
+        return '';
     }
 
-    #[Override] public function getMetadata(?string $key = null)
+    /**
+     * {}
+     */
+    public function getMetadata($key = null): ?array
     {
-        // TODO: Implement getMetadata() method.
+        return null;
     }
 }

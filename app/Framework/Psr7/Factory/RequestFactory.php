@@ -7,6 +7,7 @@ use Framework\Psr\Http\Factory\StreamFactoryInterface;
 use Framework\Psr\Http\Factory\UriFactoryInterface;
 use Framework\Psr\Http\Message\RequestInterface;
 use Framework\Psr\Http\Message\UriInterface;
+use Framework\Psr7\Headers;
 use Framework\Psr7\Request;
 use InvalidArgumentException;
 use Override;
