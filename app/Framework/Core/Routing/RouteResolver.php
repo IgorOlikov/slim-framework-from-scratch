@@ -6,7 +6,8 @@ use Framework\Core\Interfaces\DispatcherInterface;
 use Framework\Core\Interfaces\RouteCollectorInterface;
 use Framework\Core\Interfaces\RouteInterface;
 use Framework\Core\Interfaces\RouteResolverInterface;
-use Framework\Core\Routing\RoutingResults;
+
+
 use Override;
 
 class RouteResolver implements RouteResolverInterface

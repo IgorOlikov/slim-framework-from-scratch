@@ -4,7 +4,8 @@ namespace Framework\Core\Routing;
 
 use Framework\Core\Interfaces\DispatcherInterface;
 use Framework\Core\Interfaces\RouteCollectorInterface;
-use Framework\Core\Interfaces\RoutingResults;
+
+
 use Override;
 
 class Dispatcher implements DispatcherInterface
@@ -21,11 +22,52 @@ class Dispatcher implements DispatcherInterface
 
     #[Override] public function dispatch(string $method, string $uri): RoutingResults
     {
-        // TODO: Implement dispatch() method.
+        $dispatcher = $this->createDispatcher();
+        $results = $dispatcher->dispatch($method, $uri);
+        return new RoutingResults($this, $method, $uri, $results[0], $results[1], $results[2]);
     }
 
     #[Override] public function getAllowedMethods(string $uri): array
     {
-        // TODO: Implement getAllowedMethods() method.
+        $dispatcher = $this->createDispatcher();
+        return $dispatcher->getAllowedMethods($uri);
     }
+
+    protected function createDispatcher(): FastRouteDispatcher
+    {
+        if ($this->dispatcher) {
+            return $this->dispatcher;
+        }
+
+        $routeDefinitionCallback = function (FastRouteCollector $r): void {
+            $basePath = $this->routeCollector->getBasePath();
+
+            foreach ($this->routeCollector->getRoutes() as $route) {
+                $r->addRoute($route->getMethods(), $basePath . $route->getPattern(), $route->getIdentifier());
+            }
+        };
+
+        $cacheFile = $this->routeCollector->getCacheFile();
+
+        if ($cacheFile) {
+            /** @var FastRouteDispatcher $dispatcher */
+            $dispatcher = \FastRoute\cachedDispatcher($routeDefinitionCallback, [
+                'dataGenerator' => GroupCountBased::class,
+                'dispatcher' => FastRouteDispatcher::class,
+                'routeParser' => new Std(),
+                'cacheFile' => $cacheFile,
+            ]);
+        } else {
+            /** @var FastRouteDispatcher $dispatcher */
+            $dispatcher = \FastRoute\simpleDispatcher($routeDefinitionCallback, [
+                'dataGenerator' => GroupCountBased::class,
+                'dispatcher' => FastRouteDispatcher::class,
+                'routeParser' => new Std(),
+            ]);
+        }
+
+        $this->dispatcher = $dispatcher;
+        return $this->dispatcher;
+    }
+
 }

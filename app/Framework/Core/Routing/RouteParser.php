@@ -5,7 +5,7 @@ namespace Framework\Core\Routing;
 use Framework\Core\Interfaces\RouteCollectorInterface;
 use Framework\Core\Interfaces\RouteParserInterface;
 use Framework\Psr\Http\Message\UriInterface;
-use Framework\Router\RouteParser\Std;
+use Framework\FastRouter\RouteParser\Std;
 use Override;
 
 class RouteParser implements RouteParserInterface

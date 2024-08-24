@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Router;
+namespace Framework\FastRouter;
 
 Interface Dispatcher
 {
