@@ -8,6 +8,12 @@ use Override;
 
 class Uri implements UriInterface
 {
+    public const array SUPPORTED_SCHEMES = [
+        '' => null,
+        'http' => 80,
+        'https' => 443
+    ];
+
     /**
      * Uri scheme (without "://" suffix)
      */

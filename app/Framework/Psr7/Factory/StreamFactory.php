@@ -2,6 +2,7 @@
 
 namespace Framework\Psr7\Factory;
 
+
 use Framework\Psr\Http\Factory\StreamFactoryInterface;
 use Framework\Psr\Http\Message\StreamInterface;
 use Framework\Psr7\Stream;
@@ -15,10 +16,19 @@ class StreamFactory implements StreamFactoryInterface
 
     #[Override] public function createStream(string $content = ''): StreamInterface
     {
-        // TODO: Implement createStream() method.
+        $resource = fopen('php://temp', 'rw+');
+
+        if (!is_resource($resource)) {
+            throw new RuntimeException('StreamFactory::createStream() could not open temporary file stream.');
+        }
+
+        fwrite($resource, $content);
+        rewind($resource);
+
+        return $this->createStreamFromResource($resource);
     }
 
-    #[Override] public function createStreamFromFile(string $filename, string $mode = 'r'): StreamInterface
+    #[Override] public function createStreamFromFile(string $filename, string $mode = 'r', ?StreamInterface $cache = null): StreamInterface
     {
         set_error_handler(
             static function (int $errno, string $errstr) use ($filename, $mode): void {
@@ -46,7 +56,7 @@ class StreamFactory implements StreamFactoryInterface
         return new Stream($resource, $cache);
     }
 
-    #[Override] public function createStreamFromResource($resource): StreamInterface
+    #[Override] public function createStreamFromResource($resource, ?StreamInterface $cache = null): StreamInterface
     {
         if (!is_resource($resource)) {
             throw new InvalidArgumentException(
