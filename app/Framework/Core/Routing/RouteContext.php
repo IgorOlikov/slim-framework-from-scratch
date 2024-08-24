@@ -1,0 +1,80 @@
+<?php
+
+namespace Framework\Core\Routing;
+
+use Framework\Core\Interfaces\RouteInterface;
+use Framework\Core\Interfaces\RouteParserInterface;
+use Framework\Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
+
+class RouteContext
+{
+    public const  string ROUTE = '__route__';
+
+    public const string ROUTE_PARSER = '__routeParser__';
+
+    public const string ROUTING_RESULTS = '__routingResults__';
+
+    public const string BASE_PATH = '__basePath__';
+
+    public static function fromRequest(ServerRequestInterface $serverRequest): self
+    {
+        $route = $serverRequest->getAttribute(self::ROUTE);
+        $routeParser = $serverRequest->getAttribute(self::ROUTE_PARSER);
+        $routingResults = $serverRequest->getAttribute(self::ROUTING_RESULTS);
+        $basePath = $serverRequest->getAttribute(self::BASE_PATH);
+
+        if ($routeParser === null || $routingResults === null) {
+            throw new RuntimeException('Cannot create RouteContext before routing has been completed');
+        }
+
+        /** @var RouteInterface|null $route */
+        /** @var RouteParserInterface $routeParser */
+        /** @var RoutingResults $routingResults */
+        /** @var string|null $basePath */
+        return new self($route, $routeParser, $routingResults, $basePath);
+    }
+
+    private ?RouteInterface $route;
+
+    private RouteParserInterface $routeParser;
+
+    private RoutingResults $routingResults;
+
+    private ?string $basePath;
+
+    private function __construct(
+        ?RouteInterface $route,
+        RouteParserInterface $routeParser,
+        RoutingResults $routingResults,
+        ?string $basePath = null
+    ) {
+        $this->route = $route;
+        $this->routeParser = $routeParser;
+        $this->routingResults = $routingResults;
+        $this->basePath = $basePath;
+    }
+
+    public function getRoute(): ?RouteInterface
+    {
+        return $this->route;
+    }
+
+    public function getRouteParser(): RouteParserInterface
+    {
+        return $this->routeParser;
+    }
+
+    public function getRoutingResults(): RoutingResults
+    {
+        return $this->routingResults;
+    }
+
+    public function getBasePath(): string
+    {
+        if ($this->basePath === null) {
+            throw new RuntimeException('No base path defined.');
+        }
+        return $this->basePath;
+    }
+}
