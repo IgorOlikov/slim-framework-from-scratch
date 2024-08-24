@@ -1,39 +1,25 @@
 <?php
 
 
-namespace Framework;
+namespace Framework\FastRouter;
 
-use Framework\Fa\Cache\FileCache;
+use Framework\FastRouter\Cache\FileCache;
 use LogicException;
 
 
 
 if (! function_exists('Framework\FastRouter\simpleDispatcher')) {
-    /**
-     * @deprecated since v2.0 and will be removed in v3.0
-     *
-     * @see FastRoute::recommendedSettings()
-     * @see FastRoute::disableCache()
-     *
-     * @param callable(ConfigureRoutes):void                                                                                                                                                                                                                                                           $routeDefinitionCallback
-     * @param array{routeParser?: class-string<RouteParser>, dataGenerator?: class-string<DataGenerator>, dispatcher?: class-string<Dispatcher>, routeCollector?: class-string<ConfigureRoutes>, cacheDisabled?: bool, cacheKey?: string, cacheFile?: string, cacheDriver?: class-string<Cache>|Cache} $options
-     */
+
+
     function simpleDispatcher(callable $routeDefinitionCallback, array $options = []): Dispatcher
     {
-        return FastRouter\cachedDispatcher(
+        return \Framework\FastRouter\cachedDispatcher(
             $routeDefinitionCallback,
             ['cacheDisabled' => true] + $options,
         );
     }
 
-    /**
-     * @deprecated since v2.0 and will be removed in v3.0
-     *
-     * @see FastRoute::recommendedSettings()
-     *
-     * @param callable(ConfigureRoutes):void                                                                                                                                                                                                                                                           $routeDefinitionCallback
-     * @param array{routeParser?: class-string<RouteParser>, dataGenerator?: class-string<DataGenerator>, dispatcher?: class-string<Dispatcher>, routeCollector?: class-string<ConfigureRoutes>, cacheDisabled?: bool, cacheKey?: string, cacheFile?: string, cacheDriver?: class-string<Cache>|Cache} $options
-     */
+
     function cachedDispatcher(callable $routeDefinitionCallback, array $options = []): Dispatcher
     {
         $options += [
@@ -74,4 +60,6 @@ if (! function_exists('Framework\FastRouter\simpleDispatcher')) {
 
         return new $options['dispatcher']($cache->get($cacheKey, $loader));
     }
+
+
 }

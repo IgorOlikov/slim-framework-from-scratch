@@ -4,15 +4,22 @@ namespace Framework\Core\Routing;
 
 use Framework\Core\Interfaces\DispatcherInterface;
 use Framework\Core\Interfaces\RouteCollectorInterface;
-
-
+use Framework\FastRouter\RouteCollector as FastRouterCollector;
+use Framework\FastRouter\RouteParser\Std;
 use Override;
+
+require __DIR__ . '/../../FastRouter/functions.php';
+
+
+
+
+
 
 class Dispatcher implements DispatcherInterface
 {
     private RouteCollectorInterface $routeCollector;
 
-    private ?RouteDispatcher $dispatcher = null;
+    private ?FastRouterDispatcher $dispatcher = null;
 
     public function __construct(RouteCollectorInterface $routeCollector)
     {
@@ -35,11 +42,14 @@ class Dispatcher implements DispatcherInterface
 
     protected function createDispatcher(): FastRouterDispatcher
     {
+
+
+
         if ($this->dispatcher) {
             return $this->dispatcher;
         }
 
-        $routeDefinitionCallback = function (FastRouteCollector $r): void {
+        $routeDefinitionCallback = function (FastRouterCollector $r): void {
             $basePath = $this->routeCollector->getBasePath();
 
             foreach ($this->routeCollector->getRoutes() as $route) {
@@ -51,15 +61,16 @@ class Dispatcher implements DispatcherInterface
 
         if ($cacheFile) {
             /** @var FastRouterDispatcher $dispatcher */
-            $dispatcher = \FastRoute\cachedDispatcher($routeDefinitionCallback, [
+            $dispatcher = \Framework\FastRouter\cachedDispatcher($routeDefinitionCallback, [
                 'dataGenerator' => GroupCountBased::class,
                 'dispatcher' => FastRouteDispatcher::class,
                 'routeParser' => new Std(),
                 'cacheFile' => $cacheFile,
             ]);
+
         } else {
             /** @var FastRouterDispatcher $dispatcher */
-            $dispatcher = \FastRoute\simpleDispatcher($routeDefinitionCallback, [
+            $dispatcher = \Framework\FastRouter\simpleDispatcher($routeDefinitionCallback, [
                 'dataGenerator' => GroupCountBased::class,
                 'dispatcher' => FastRouteDispatcher::class,
                 'routeParser' => new Std(),
