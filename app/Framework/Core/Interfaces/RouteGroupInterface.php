@@ -2,6 +2,7 @@
 
 namespace Framework\Core\Interfaces;
 
+use Framework\Core\MiddlewareDispatcher;
 use Framework\Psr\Http\ServerMiddleware\MiddlewareInterface;
 
 interface RouteGroupInterface
