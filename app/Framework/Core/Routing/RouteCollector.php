@@ -59,7 +59,7 @@ class RouteCollector implements RouteCollectorInterface
 
     #[Override] public function getRouteParser(): RouteParserInterface
     {
-        // TODO: Implement getRouteParser() method.
+        return $this->routeParser;
     }
 
     #[Override] public function getDefaultInvocationStrategy(): InvocationStrategyInterface

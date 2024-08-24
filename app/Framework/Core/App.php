@@ -3,6 +3,7 @@
 namespace Framework\Core;
 
 
+use Framework\Core\Factory\ServerRequestCreatorFactory;
 use Framework\Core\Interfaces\CallableResolverInterface;
 use Framework\Core\Interfaces\MiddlewareDispatcherInterface;
 use Framework\Core\Interfaces\RouteCollectorInterface;
@@ -55,8 +56,30 @@ class App extends RouteCollectorProxy implements RequestHandlerInterface
 
     }
 
+    public function run(?ServerRequestInterface $request = null): void
+    {
+        if (!$request) {
+            $serverRequestCreator = ServerRequestCreatorFactory::create();
+            $request = $serverRequestCreator->createServerRequestFromGlobals();
+        }
+
+        $response = $this->handle($request);
+
+        //$responseEmitter = new ResponseEmitter();
+        //$responseEmitter->emit($response);
+
+    }
+
     #[Override] public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        // TODO: Implement handle() method.
+        $response = $this->middlewareDispatcher->handle($request);
+
+        $method = strtoupper($request->getMethod());
+        if ($method === 'HEAD') {
+            $emptyBody = $this->responseFactory->createResponse()->getBody();
+            return $response->withBody($emptyBody);
+        }
+
+        return $response;
     }
 }
