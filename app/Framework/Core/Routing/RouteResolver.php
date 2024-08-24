@@ -6,7 +6,7 @@ use Framework\Core\Interfaces\DispatcherInterface;
 use Framework\Core\Interfaces\RouteCollectorInterface;
 use Framework\Core\Interfaces\RouteInterface;
 use Framework\Core\Interfaces\RouteResolverInterface;
-use Framework\Core\Interfaces\RoutingResults;
+use Framework\Core\Routing\RoutingResults;
 use Override;
 
 class RouteResolver implements RouteResolverInterface
@@ -25,7 +25,11 @@ class RouteResolver implements RouteResolverInterface
 
     #[Override] public function computeRoutingResults(string $uri, string $method): RoutingResults
     {
-        // TODO: Implement computeRoutingResults() method.
+        $uri = rawurldecode($uri);
+        if ($uri === '' || $uri[0] !== '/') {
+            $uri = '/' . $uri;
+        }
+        return $this->dispatcher->dispatch($method, $uri);
     }
 
     #[Override] public function resolveRoute(string $identifier): RouteInterface

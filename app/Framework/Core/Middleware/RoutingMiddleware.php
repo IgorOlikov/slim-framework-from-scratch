@@ -4,6 +4,8 @@ namespace Framework\Core\Middleware;
 
 use Framework\Core\Interfaces\RouteParserInterface;
 use Framework\Core\Interfaces\RouteResolverInterface;
+use Framework\Core\Routing\RouteContext;
+use Framework\Core\Routing\RoutingResults;
 use Framework\Psr\Http\Message\ResponseInterface;
 use Framework\Psr\Http\Message\ServerRequestInterface;
 use Framework\Psr\Http\ServerHandler\RequestHandlerInterface;
