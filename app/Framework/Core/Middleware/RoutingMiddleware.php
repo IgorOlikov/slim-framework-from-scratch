@@ -2,6 +2,8 @@
 
 namespace Framework\Core\Middleware;
 
+use Framework\Core\Exception\HttpMethodNotAllowedException;
+use Framework\Core\Exception\HttpNotFoundException;
 use Framework\Core\Interfaces\RouteParserInterface;
 use Framework\Core\Interfaces\RouteResolverInterface;
 use Framework\Core\Routing\RouteContext;
