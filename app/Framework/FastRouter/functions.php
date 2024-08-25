@@ -13,7 +13,7 @@ if (! function_exists('Framework\FastRouter\simpleDispatcher')) {
 
     function simpleDispatcher(callable $routeDefinitionCallback, array $options = []): Dispatcher
     {
-        return \Framework\FastRouter\cachedDispatcher(
+        return cachedDispatcher(
             $routeDefinitionCallback,
             ['cacheDisabled' => true] + $options,
         );

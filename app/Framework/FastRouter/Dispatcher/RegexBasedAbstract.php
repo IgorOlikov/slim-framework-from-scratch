@@ -2,12 +2,15 @@
 
 namespace Framework\FastRouter\Dispatcher;
 
-use Framework\FastRouter\Dispatcher;
+
+
+
+
 use Framework\FastRouter\Dispatcher\Result\Matched;
 use Framework\FastRouter\Dispatcher\Result\MethodNotAllowed;
 use Framework\FastRouter\Dispatcher\Result\NotMatched;
 
-abstract class RegexBasedAbstract implements Dispatcher
+abstract class RegexBasedAbstract implements \Framework\FastRouter\Dispatcher
 {
     protected array $staticRouteMap = [];
 
@@ -23,7 +26,7 @@ abstract class RegexBasedAbstract implements Dispatcher
 
     abstract protected function dispatchVariableRoute(array $routeData, string $uri): ?Matched;
 
-    public function dispatch(string $httpMethod, string $uri): Matched|NotMatched|MethodNotAllowed
+    public function dispatch(string $httpMethod, string $uri)
     {
         if (isset($this->staticRouteMap[$httpMethod][$uri])) {
             $result = new Matched();

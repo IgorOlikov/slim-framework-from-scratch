@@ -16,7 +16,7 @@ class FastRouterDispatcher extends GroupCountBased
      * @param string $httpMethod
      * @param string $uri
      *
-     * @return array
+     * @return array{int, string|null, array<string, string>}
      */
     public function dispatch($httpMethod, $uri): array
     {
@@ -24,7 +24,7 @@ class FastRouterDispatcher extends GroupCountBased
         if ($routingResults[0] === self::FOUND) {
             return $routingResults;
         }
-
+//
         // For HEAD requests, attempt fallback to GET
         if ($httpMethod === 'HEAD') {
             $routingResults = $this->routingResults('GET', $uri);
@@ -32,17 +32,17 @@ class FastRouterDispatcher extends GroupCountBased
                 return $routingResults;
             }
         }
-
+//
         // If nothing else matches, try fallback routes
         $routingResults = $this->routingResults('*', $uri);
         if ($routingResults[0] === self::FOUND) {
             return $routingResults;
         }
-
+//
         if (!empty($this->getAllowedMethods($uri))) {
             return [self::METHOD_NOT_ALLOWED, null, []];
         }
-
+//
         return [self::NOT_FOUND, null, []];
     }
 

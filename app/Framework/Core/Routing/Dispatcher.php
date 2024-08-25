@@ -2,13 +2,16 @@
 
 namespace Framework\Core\Routing;
 
-use Framework\Core\Interfaces\DispatcherInterface;
-use Framework\Core\Interfaces\RouteCollectorInterface;
-
 use Framework\FastRouter\DataGenerator\GroupCountBased;
 use Framework\FastRouter\RouteCollector as FastRouterCollector;
 use Framework\FastRouter\RouteParser\Std;
+
+use Framework\Core\Interfaces\DispatcherInterface;
+use Framework\Core\Interfaces\RouteCollectorInterface;
+
 use Override;
+use function Framework\FastRouter\cachedDispatcher;
+use function Framework\FastRouter\simpleDispatcher;
 
 require __DIR__ . '/../../FastRouter/functions.php';
 
@@ -25,10 +28,12 @@ class Dispatcher implements DispatcherInterface
     }
 
 
-    #[Override] public function dispatch(string $method, string $uri): RoutingResults
+    public function dispatch(string $method, string $uri): RoutingResults
     {
         $dispatcher = $this->createDispatcher();
+
         $results = $dispatcher->dispatch($method, $uri);
+
         return new RoutingResults($this, $method, $uri, $results[0], $results[1], $results[2]);
     }
 
@@ -56,7 +61,7 @@ class Dispatcher implements DispatcherInterface
 
         if ($cacheFile) {
             /** @var FastRouterDispatcher $dispatcher */
-            $dispatcher = \Framework\FastRouter\cachedDispatcher($routeDefinitionCallback, [
+            $dispatcher = cachedDispatcher($routeDefinitionCallback, [
                 'dataGenerator' => GroupCountBased::class,
                 'dispatcher' => FastRouterDispatcher::class,
                 'routeParser' => new Std(),
@@ -65,7 +70,7 @@ class Dispatcher implements DispatcherInterface
 
         } else {
             /** @var FastRouterDispatcher $dispatcher */
-            $dispatcher = \Framework\FastRouter\simpleDispatcher($routeDefinitionCallback, [
+            $dispatcher = simpleDispatcher($routeDefinitionCallback, [
                 'dataGenerator' => GroupCountBased::class,
                 'dispatcher' => FastRouterDispatcher::class,
                 'routeParser' => new Std(),

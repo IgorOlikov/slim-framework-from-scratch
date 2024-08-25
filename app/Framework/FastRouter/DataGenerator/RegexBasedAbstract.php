@@ -29,7 +29,6 @@ abstract class RegexBasedAbstract implements DataGenerator
         }
     }
 
-
     public function getData(): array
     {
         if ($this->methodToRegexToRoutesMap === []) {
@@ -38,7 +37,6 @@ abstract class RegexBasedAbstract implements DataGenerator
 
         return [$this->staticRoutes, $this->generateVariableRouteData()];
     }
-
 
     private function generateVariableRouteData(): array
     {
