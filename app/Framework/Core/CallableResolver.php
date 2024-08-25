@@ -36,17 +36,13 @@ class CallableResolver implements AdvancedCallableResolverInterface
         return $this->bindToContainer($callable);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function resolveRoute($toResolve): callable
     {
         return $this->resolveByPredicate($toResolve, [$this, 'isRoute'], 'handle');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function resolveMiddleware($toResolve): callable
     {
         return $this->resolveByPredicate($toResolve, [$this, 'isMiddleware'], 'process');

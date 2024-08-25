@@ -2,7 +2,6 @@
 
 namespace Framework\Core;
 
-
 use Framework\Core\Factory\ServerRequestCreatorFactory;
 use Framework\Core\Interfaces\CallableResolverInterface;
 use Framework\Core\Interfaces\MiddlewareDispatcherInterface;
@@ -21,11 +20,10 @@ use Framework\Psr\Http\Message\ServerRequestInterface;
 use Framework\Psr\Http\ServerHandler\RequestHandlerInterface;
 use Framework\Psr\Http\ServerMiddleware\MiddlewareInterface;
 use Framework\Psr\Log\LoggerInterface;
-use Override;
+
 
 class App extends RouteCollectorProxy implements RequestHandlerInterface
 {
-
     public const string VERSION = '4.12.0';
 
     protected RouteResolverInterface $routeResolver;
@@ -145,8 +143,8 @@ class App extends RouteCollectorProxy implements RequestHandlerInterface
 
         $response = $this->handle($request);
 
-        //$responseEmitter = new ResponseEmitter();
-        //$responseEmitter->emit($response);
+        $responseEmitter = new ResponseEmitter();
+        $responseEmitter->emit($response);
 
     }
 
