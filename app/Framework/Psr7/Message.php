@@ -110,7 +110,7 @@ class Message implements MessageInterface
         return $this->body;
     }
 
-    #[Override] public function withBody(StreamInterface $body): MessageInterface
+    public function withBody(StreamInterface $body): MessageInterface
     {
         $clone = clone $this;
         $clone->body = $body;

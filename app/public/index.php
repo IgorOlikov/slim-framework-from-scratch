@@ -9,9 +9,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-//$app->get('/', [IndexController::class, 'index']);
+$app->get('/', [IndexController::class, 'index']);
 
 
 $app->run();
 
-echo 'abv';
