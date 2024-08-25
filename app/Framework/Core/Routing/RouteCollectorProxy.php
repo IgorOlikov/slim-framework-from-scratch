@@ -41,83 +41,109 @@ class RouteCollectorProxy implements RouteCollectorProxyInterface
     }
 
 
-    #[Override] public function getResponseFactory(): ResponseFactoryInterface
+    public function getResponseFactory(): ResponseFactoryInterface
     {
-        // TODO: Implement getResponseFactory() method.
+        return $this->responseFactory;
     }
 
-    #[Override] public function getCallableResolver(): CallableResolverInterface
+    public function getCallableResolver(): CallableResolverInterface
     {
-        // TODO: Implement getCallableResolver() method.
+        return $this->callableResolver;
     }
 
-    #[Override] public function getContainer(): ?ContainerInterface
+    public function getContainer(): ?ContainerInterface
     {
-        // TODO: Implement getContainer() method.
+        return $this->container;
     }
 
-    #[Override] public function getRouteCollector(): RouteCollectorInterface
+
+    public function getRouteCollector(): RouteCollectorInterface
     {
-        // TODO: Implement getRouteCollector() method.
+        return $this->routeCollector;
     }
 
-    #[Override] public function getBasePath(): string
+
+    public function getBasePath(): string
     {
-        // TODO: Implement getBasePath() method.
+        return $this->routeCollector->getBasePath();
     }
 
-    #[Override] public function setBasePath(string $basePath): RouteCollectorProxyInterface
+
+    public function setBasePath(string $basePath): RouteCollectorProxyInterface
     {
-        // TODO: Implement setBasePath() method.
+        $this->routeCollector->setBasePath($basePath);
+
+        return $this;
     }
 
-    #[Override] public function get(string $pattern, $callable): RouteInterface
+
+    public function get(string $pattern, $callable): RouteInterface
     {
-        // TODO: Implement get() method.
+        return $this->map(['GET'], $pattern, $callable);
     }
 
-    #[Override] public function post(string $pattern, $callable): RouteInterface
+
+    public function post(string $pattern, $callable): RouteInterface
     {
-        // TODO: Implement post() method.
+        return $this->map(['POST'], $pattern, $callable);
     }
 
-    #[Override] public function put(string $pattern, $callable): RouteInterface
+
+    public function put(string $pattern, $callable): RouteInterface
     {
-        // TODO: Implement put() method.
+        return $this->map(['PUT'], $pattern, $callable);
     }
 
-    #[Override] public function patch(string $pattern, $callable): RouteInterface
+
+    public function patch(string $pattern, $callable): RouteInterface
     {
-        // TODO: Implement patch() method.
+        return $this->map(['PATCH'], $pattern, $callable);
     }
 
-    #[Override] public function delete(string $pattern, $callable): RouteInterface
+
+    public function delete(string $pattern, $callable): RouteInterface
     {
-        // TODO: Implement delete() method.
+        return $this->map(['DELETE'], $pattern, $callable);
     }
 
-    #[Override] public function options(string $pattern, $callable): RouteInterface
+
+    public function options(string $pattern, $callable): RouteInterface
     {
-        // TODO: Implement options() method.
+        return $this->map(['OPTIONS'], $pattern, $callable);
     }
 
-    #[Override] public function any(string $pattern, $callable): RouteInterface
+
+    public function any(string $pattern, $callable): RouteInterface
     {
-        // TODO: Implement any() method.
+        return $this->map(['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], $pattern, $callable);
     }
 
-    #[Override] public function map(array $methods, string $pattern, $callable): RouteInterface
+
+    public function map(array $methods, string $pattern, $callable): RouteInterface
     {
-        // TODO: Implement map() method.
+        $pattern = $this->groupPattern . $pattern;
+
+        return $this->routeCollector->map($methods, $pattern, $callable);
     }
 
-    #[Override] public function group(string $pattern, $callable): RouteGroupInterface
+
+    public function group(string $pattern, $callable): RouteGroupInterface
     {
-        // TODO: Implement group() method.
+        $pattern = $this->groupPattern . $pattern;
+
+        return $this->routeCollector->group($pattern, $callable);
     }
 
-    #[Override] public function redirect(string $from, $to, int $status = 302): RouteInterface
+
+    public function redirect(string $from, $to, int $status = 302): RouteInterface
     {
-        // TODO: Implement redirect() method.
+        $responseFactory = $this->responseFactory;
+
+        $handler = function () use ($to, $status, $responseFactory) {
+            $response = $responseFactory->createResponse($status);
+            return $response->withHeader('Location', (string) $to);
+        };
+
+        return $this->get($from, $handler);
     }
 }

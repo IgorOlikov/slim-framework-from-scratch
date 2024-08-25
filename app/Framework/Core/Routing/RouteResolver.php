@@ -33,8 +33,8 @@ class RouteResolver implements RouteResolverInterface
         return $this->dispatcher->dispatch($method, $uri);
     }
 
-    #[Override] public function resolveRoute(string $identifier): RouteInterface
+    public function resolveRoute(string $identifier): RouteInterface
     {
-        // TODO: Implement resolveRoute() method.
+        return $this->routeCollector->lookupRoute($identifier);
     }
 }

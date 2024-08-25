@@ -34,7 +34,10 @@ class Dispatcher implements DispatcherInterface
 
         $results = $dispatcher->dispatch($method, $uri);
 
-        return new RoutingResults($this, $method, $uri, $results[0], $results[1], $results[2]);
+
+        //dd($results[1][0]);
+
+        return new RoutingResults($this, $method, $uri, $results[0], $results[1][0], $results[2]);
     }
 
     #[Override] public function getAllowedMethods(string $uri): array

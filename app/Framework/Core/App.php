@@ -8,6 +8,8 @@ use Framework\Core\Interfaces\CallableResolverInterface;
 use Framework\Core\Interfaces\MiddlewareDispatcherInterface;
 use Framework\Core\Interfaces\RouteCollectorInterface;
 use Framework\Core\Interfaces\RouteResolverInterface;
+use Framework\Core\Middleware\BodyParsingMiddleware;
+use Framework\Core\Middleware\ErrorMiddleware;
 use Framework\Core\Middleware\RoutingMiddleware;
 use Framework\Core\Routing\RouteCollectorProxy;
 use Framework\Core\Routing\RouteResolver;
@@ -74,33 +76,18 @@ class App extends RouteCollectorProxy implements RequestHandlerInterface
         return $this->middlewareDispatcher;
     }
 
-    /**
-     * @param MiddlewareInterface|string|callable $middleware
-     * @return App<TContainerInterface>
-     */
     public function add($middleware): self
     {
         $this->middlewareDispatcher->add($middleware);
         return $this;
     }
 
-    /**
-     * @param MiddlewareInterface $middleware
-     * @return App<TContainerInterface>
-     */
     public function addMiddleware(MiddlewareInterface $middleware): self
     {
         $this->middlewareDispatcher->addMiddleware($middleware);
         return $this;
     }
 
-    /**
-     * Add the Slim built-in routing middleware to the app middleware stack
-     *
-     * This method can be used to control middleware order and is not required for default routing operation.
-     *
-     * @return RoutingMiddleware
-     */
     public function addRoutingMiddleware(): RoutingMiddleware
     {
         $routingMiddleware = new RoutingMiddleware(
@@ -139,13 +126,7 @@ class App extends RouteCollectorProxy implements RequestHandlerInterface
         return $errorMiddleware;
     }
 
-    /**
-     * Add the Slim body parsing middleware to the app middleware stack
-     *
-     * @param callable[] $bodyParsers
-     *
-     * @return BodyParsingMiddleware
-     */
+
     public function addBodyParsingMiddleware(array $bodyParsers = []): BodyParsingMiddleware
     {
         $bodyParsingMiddleware = new BodyParsingMiddleware($bodyParsers);
@@ -171,8 +152,6 @@ class App extends RouteCollectorProxy implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-
-
         $response = $this->middlewareDispatcher->handle($request);
 
         $method = strtoupper($request->getMethod());
