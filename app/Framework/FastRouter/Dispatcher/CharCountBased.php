@@ -4,16 +4,18 @@ namespace Framework\FastRouter\Dispatcher;
 
 use Framework\FastRouter\Dispatcher\Result\Matched;
 
-class MarkBased extends RegexBasedAbstract
+class CharCountBased extends RegexBasedAbstract
 {
     protected function dispatchVariableRoute(array $routeData, string $uri): ?Matched
     {
         foreach ($routeData as $data) {
-            if (preg_match($data['regex'], $uri, $matches) !== 1) {
+            assert(isset($data['suffix']));
+
+            if (preg_match($data['regex'], $uri . $data['suffix'], $matches) !== 1) {
                 continue;
             }
 
-            [$handler, $varNames, $extraParameters] = $data['routeMap'][$matches['MARK']];
+            [$handler, $varNames, $extraParameters] = $data['routeMap'][end($matches)];
 
             $vars = [];
             $i = 0;

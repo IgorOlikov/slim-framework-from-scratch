@@ -4,6 +4,7 @@ namespace Framework\Core\Routing;
 
 use Framework\FastRouter\Dispatcher\GroupCountBased;
 
+
 class FastRouterDispatcher extends GroupCountBased
 {
     /**
@@ -15,7 +16,7 @@ class FastRouterDispatcher extends GroupCountBased
      * @param string $httpMethod
      * @param string $uri
      *
-     * @return array{int, string|null, array<string, string>}
+     * @return array
      */
     public function dispatch($httpMethod, $uri): array
     {

@@ -2,11 +2,11 @@
 
 namespace Framework\FastRouter\DataGenerator;
 
-class MarkBased extends RegexBasedAbstract
+class GroupPosBased extends RegexBasedAbstract
 {
     protected function getApproxChunkSize(): int
     {
-        return 30;
+        return 10;
     }
 
 
@@ -14,16 +14,15 @@ class MarkBased extends RegexBasedAbstract
     {
         $routeMap = [];
         $regexes = [];
-        $markName = 'a';
-
+        $offset = 1;
         foreach ($regexToRoutesMap as $regex => $route) {
-            $regexes[] = $regex . '(*MARK:' . $markName . ')';
-            $routeMap[$markName] = [$route->handler, $route->variables, $route->extraParameters];
+            $regexes[] = $regex;
+            $routeMap[$offset] = [$route->handler, $route->variables, $route->extraParameters];
 
-            ++$markName;
+            $offset += count($route->variables);
         }
 
-        $regex = '~^(?|' . implode('|', $regexes) . ')$~';
+        $regex = '~^(?:' . implode('|', $regexes) . ')$~';
 
         return ['regex' => $regex, 'routeMap' => $routeMap];
     }

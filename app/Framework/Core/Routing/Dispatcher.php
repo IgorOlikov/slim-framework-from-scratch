@@ -4,15 +4,13 @@ namespace Framework\Core\Routing;
 
 use Framework\Core\Interfaces\DispatcherInterface;
 use Framework\Core\Interfaces\RouteCollectorInterface;
+
+use Framework\FastRouter\DataGenerator\GroupCountBased;
 use Framework\FastRouter\RouteCollector as FastRouterCollector;
 use Framework\FastRouter\RouteParser\Std;
 use Override;
 
 require __DIR__ . '/../../FastRouter/functions.php';
-
-
-
-
 
 
 class Dispatcher implements DispatcherInterface
@@ -42,9 +40,6 @@ class Dispatcher implements DispatcherInterface
 
     protected function createDispatcher(): FastRouterDispatcher
     {
-
-
-
         if ($this->dispatcher) {
             return $this->dispatcher;
         }
@@ -63,7 +58,7 @@ class Dispatcher implements DispatcherInterface
             /** @var FastRouterDispatcher $dispatcher */
             $dispatcher = \Framework\FastRouter\cachedDispatcher($routeDefinitionCallback, [
                 'dataGenerator' => GroupCountBased::class,
-                'dispatcher' => FastRouteDispatcher::class,
+                'dispatcher' => FastRouterDispatcher::class,
                 'routeParser' => new Std(),
                 'cacheFile' => $cacheFile,
             ]);
@@ -72,7 +67,7 @@ class Dispatcher implements DispatcherInterface
             /** @var FastRouterDispatcher $dispatcher */
             $dispatcher = \Framework\FastRouter\simpleDispatcher($routeDefinitionCallback, [
                 'dataGenerator' => GroupCountBased::class,
-                'dispatcher' => FastRouteDispatcher::class,
+                'dispatcher' => FastRouterDispatcher::class,
                 'routeParser' => new Std(),
             ]);
         }

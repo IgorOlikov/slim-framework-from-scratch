@@ -4,7 +4,7 @@ namespace Framework\FastRouter\Dispatcher;
 
 use Framework\FastRouter\Dispatcher\Result\Matched;
 
-class MarkBased extends RegexBasedAbstract
+class GroupPosBased extends RegexBasedAbstract
 {
     protected function dispatchVariableRoute(array $routeData, string $uri): ?Matched
     {
@@ -13,12 +13,18 @@ class MarkBased extends RegexBasedAbstract
                 continue;
             }
 
-            [$handler, $varNames, $extraParameters] = $data['routeMap'][$matches['MARK']];
+            // find first non-empty match
+            // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedFor
+            for ($i = 1; $matches[$i] === ''; ++$i) {
+            }
+
+            assert(isset($i));
+
+            [$handler, $varNames, $extraParameters] = $data['routeMap'][$i];
 
             $vars = [];
-            $i = 0;
             foreach ($varNames as $varName) {
-                $vars[$varName] = $matches[++$i];
+                $vars[$varName] = $matches[$i++];
             }
 
             $result = new Matched();

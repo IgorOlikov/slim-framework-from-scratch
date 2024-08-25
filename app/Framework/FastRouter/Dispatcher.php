@@ -2,6 +2,10 @@
 
 namespace Framework\FastRouter;
 
+use Framework\FastRouter\Dispatcher\Result\Matched;
+use Framework\FastRouter\Dispatcher\Result\MethodNotAllowed;
+use Framework\FastRouter\Dispatcher\Result\NotMatched;
+
 Interface Dispatcher
 {
     public const int NOT_FOUND = 0;
