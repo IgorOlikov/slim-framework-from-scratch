@@ -1,0 +1,38 @@
+<?php
+
+namespace Framework\Core\Error\Renderers;
+
+use Framework\Core\Error\AbstractErrorRenderer;
+use Throwable;
+
+class JsonErrorRenderer extends AbstractErrorRenderer
+{
+    public function __invoke(Throwable $exception, bool $displayErrorDetails): string
+    {
+        $error = ['message' => $this->getErrorTitle($exception)];
+
+        if ($displayErrorDetails) {
+            $error['exception'] = [];
+            do {
+                $error['exception'][] = $this->formatExceptionFragment($exception);
+            } while ($exception = $exception->getPrevious());
+        }
+
+        return (string) json_encode($error, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    }
+
+    /**
+     * @return array<string|int>
+     */
+    private function formatExceptionFragment(Throwable $exception): array
+    {
+        $code = $exception->getCode();
+        return [
+            'type' => get_class($exception),
+            'code' => $code,
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+        ];
+    }
+}
