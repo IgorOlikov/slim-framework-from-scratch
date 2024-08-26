@@ -168,7 +168,18 @@ class Stream implements StreamInterface
 
     #[Override] public function write(string $string): int
     {
-        // TODO: Implement write() method.
+        $written = false;
+
+        if ($this->isWritable() && $this->stream) {
+            $written = fwrite($this->stream, $string);
+        }
+
+        if ($written !== false) {
+            $this->size = null;
+            return $written;
+        }
+
+        throw new RuntimeException('Could not write to stream.');
     }
 
     #[Override] public function isReadable(): bool

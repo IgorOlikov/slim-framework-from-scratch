@@ -2,13 +2,19 @@
 
 namespace App\Http\Controller;
 
-use Framework\Psr\Http\Message\ResponseInterface;
+use Framework\Psr\Http\Message\ResponseInterface as Response;
+use Framework\Psr\Http\Message\RequestInterface as Request;
+
 
 class IndexController
 {
-    public function index(): ResponseInterface
+    public function index(Request $request, Response $response): Response
     {
-        phpinfo();
+        echo 'controller';
+
+        $response->getBody()->write('abc');
+
+        return $response;
     }
 
 }
