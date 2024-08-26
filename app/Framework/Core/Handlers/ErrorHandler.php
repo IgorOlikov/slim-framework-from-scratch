@@ -2,10 +2,15 @@
 
 namespace Framework\Core\Handlers;
 
+use Framework\Core\Error\Renderers\HtmlErrorRenderer;
+use Framework\Core\Error\Renderers\JsonErrorRenderer;
+use Framework\Core\Error\Renderers\PlainTextErrorRenderer;
+use Framework\Core\Error\Renderers\XmlErrorRenderer;
 use Framework\Core\Exception\HttpException;
 use Framework\Core\Exception\HttpMethodNotAllowedException;
 use Framework\Core\Interfaces\CallableResolverInterface;
 use Framework\Core\Interfaces\ErrorHandlerInterface;
+use Framework\Core\Logger;
 use Framework\Psr\Http\Factory\ResponseFactoryInterface;
 use Framework\Psr\Http\Message\ResponseInterface;
 use Framework\Psr\Http\Message\ServerRequestInterface;
@@ -245,7 +250,7 @@ class ErrorHandler implements ErrorHandlerInterface
     /**
      * Returns a default logger implementation.
      */
-    protected function getDefaultLogger(): LoggerInterface
+    protected function getDefaultLogger(): Logger
     {
         return new Logger();
     }
