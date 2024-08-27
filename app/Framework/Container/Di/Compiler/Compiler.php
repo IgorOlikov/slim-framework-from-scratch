@@ -16,6 +16,7 @@ use Framework\Container\Di\Definition\ValueDefinition;
 use Framework\Container\Di\DependencyException;
 use Framework\Container\Di\Proxy\ProxyFactory;
 use InvalidArgumentException;
+use Laravel\SerializableClosure\Support\ReflectionClosure;
 
 class Compiler
 {

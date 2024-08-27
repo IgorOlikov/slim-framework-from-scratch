@@ -2,8 +2,10 @@
 
 namespace Framework\Container\Di\Definition;
 
+use Framework\Container\Di\Definition\Dumper\ObjectDefinitionDumper;
 use Framework\Container\Di\Definition\ObjectDefinition\MethodInjection;
 use Framework\Container\Di\Definition\ObjectDefinition\PropertyInjection;
+use Framework\Container\Di\Definition\Source\DefinitionArray;
 use ReflectionClass;
 
 class ObjectDefinition implements Definition

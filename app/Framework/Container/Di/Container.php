@@ -2,8 +2,30 @@
 
 namespace Framework\Container\Di;
 
+use Framework\Container\Di\Definition\Definition;
+use Framework\Container\Di\Definition\Exception\InvalidDefinition;
+use Framework\Container\Di\Definition\FactoryDefinition;
+use Framework\Container\Di\Definition\Helper\DefinitionHelper;
+use Framework\Container\Di\Definition\InstanceDefinition;
+use Framework\Container\Di\Definition\ObjectDefinition;
+use Framework\Container\Di\Definition\Resolver\DefinitionResolver;
+use Framework\Container\Di\Definition\Source\DefinitionArray;
+use Framework\Container\Di\Definition\Source\MutableDefinitionSource;
+use Framework\Container\Di\Definition\Source\ReflectionBasedAutowiring;
+use Framework\Container\Di\Definition\Source\SourceChain;
+use Framework\Container\Di\Definition\ValueDefinition;
+use Framework\Container\Di\Invoker\DefinitionParameterResolver;
+use Framework\Container\Di\Proxy\ProxyFactory;
+use Framework\Container\Invoker\Invoker;
 use Framework\Container\Invoker\InvokerInterface;
+use Framework\Container\Invoker\ParameterResolver\AssociativeArrayResolver;
+use Framework\Container\Invoker\ParameterResolver\Container\TypeHintContainerResolver;
+use Framework\Container\Invoker\ParameterResolver\DefaultValueResolver;
+use Framework\Container\Invoker\ParameterResolver\NumericArrayResolver;
+use Framework\Container\Invoker\ParameterResolver\ResolverChain;
 use Framework\Psr\Container\ContainerInterface;
+use Framework\Container\Di\Definition\Resolver\ResolverDispatcher;
+use InvalidArgumentException;
 
 class Container implements ContainerInterface, FactoryInterface, InvokerInterface
 {

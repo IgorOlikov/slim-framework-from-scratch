@@ -11,6 +11,7 @@ use Framework\Container\Di\Definition\FactoryDefinition;
 use Framework\Container\Di\Definition\InstanceDefinition;
 use Framework\Container\Di\Definition\ObjectDefinition;
 use Framework\Container\Di\Definition\SelfResolvingDefinition;
+use Framework\Container\Di\Proxy\ProxyFactory;
 use Framework\Psr\Container\ContainerInterface;
 
 class ResolverDispatcher implements DefinitionResolver

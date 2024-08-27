@@ -2,6 +2,13 @@
 
 namespace Framework\Container\Di\Proxy;
 
+use ProxyManager\Configuration;
+use ProxyManager\Factory\LazyLoadingValueHolderFactory;
+use ProxyManager\FileLocator\FileLocator;
+use ProxyManager\GeneratorStrategy\EvaluatingGeneratorStrategy;
+use ProxyManager\GeneratorStrategy\FileWriterGeneratorStrategy;
+use ProxyManager\Proxy\LazyLoadingInterface;
+
 class ProxyFactory
 {
     private ?LazyLoadingValueHolderFactory $proxyManager = null;

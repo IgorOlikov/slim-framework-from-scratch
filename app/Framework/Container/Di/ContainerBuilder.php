@@ -2,6 +2,16 @@
 
 namespace Framework\Container\Di;
 
+use Framework\Container\Di\Compiler\Compiler;
+use Framework\Container\Di\Definition\Source\AttributeBasedAutowiring;
+use Framework\Container\Di\Definition\Source\DefinitionArray;
+use Framework\Container\Di\Definition\Source\DefinitionFile;
+use Framework\Container\Di\Definition\Source\DefinitionSource;
+use Framework\Container\Di\Definition\Source\NoAutowiring;
+use Framework\Container\Di\Definition\Source\ReflectionBasedAutowiring;
+use Framework\Container\Di\Definition\Source\SourceCache;
+use Framework\Container\Di\Definition\Source\SourceChain;
+use Framework\Container\Di\Proxy\ProxyFactory;
 use Framework\Psr\Container\ContainerInterface;
 use InvalidArgumentException;
 

@@ -8,7 +8,9 @@ use Framework\Container\Di\Definition\Exception\InvalidDefinition;
 use Framework\Container\Di\Definition\ObjectDefinition;
 use Framework\Container\Di\Definition\ObjectDefinition\PropertyInjection;
 use Framework\Container\Di\DependencyException;
+use Framework\Container\Di\Proxy\ProxyFactory;
 use Framework\Psr\Container\NotFoundExceptionInterface;
+use ProxyManager\Proxy\LazyLoadingInterface;
 use ReflectionClass;
 use ReflectionProperty;
 

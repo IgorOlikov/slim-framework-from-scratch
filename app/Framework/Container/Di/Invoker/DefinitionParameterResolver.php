@@ -6,6 +6,7 @@ use Framework\Container\Di\Definition\Definition;
 use Framework\Container\Di\Definition\Helper\DefinitionHelper;
 use Framework\Container\Di\Definition\Resolver\DefinitionResolver;
 
+use Framework\Container\Invoker\ParameterResolver\ParameterResolver;
 use ReflectionFunctionAbstract;
 
 class DefinitionParameterResolver implements ParameterResolver

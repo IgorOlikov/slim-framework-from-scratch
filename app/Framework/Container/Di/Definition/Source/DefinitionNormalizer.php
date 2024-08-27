@@ -8,6 +8,7 @@ use Framework\Container\Di\Definition\DecoratorDefinition;
 use Framework\Container\Di\Definition\Definition;
 use Framework\Container\Di\Definition\Exception\InvalidDefinition;
 use Framework\Container\Di\Definition\FactoryDefinition;
+use Framework\Container\Di\Definition\Helper\DefinitionHelper;
 use Framework\Container\Di\Definition\ObjectDefinition;
 use Framework\Container\Di\Definition\ValueDefinition;
 

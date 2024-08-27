@@ -5,6 +5,14 @@ namespace Framework\Container\Di\Definition\Resolver;
 use Framework\Container\Di\Definition\Definition;
 use Framework\Container\Di\Definition\Exception\InvalidDefinition;
 use Framework\Container\Di\Definition\FactoryDefinition;
+use Framework\Container\Di\Invoker\FactoryParameterResolver;
+use Framework\Container\Invoker\Exception\NotCallableException;
+use Framework\Container\Invoker\Exception\NotEnoughParametersException;
+use Framework\Container\Invoker\Invoker;
+use Framework\Container\Invoker\ParameterResolver\AssociativeArrayResolver;
+use Framework\Container\Invoker\ParameterResolver\DefaultValueResolver;
+use Framework\Container\Invoker\ParameterResolver\NumericArrayResolver;
+use Framework\Container\Invoker\ParameterResolver\ResolverChain;
 use Framework\Psr\Container\ContainerInterface;
 
 class FactoryResolver implements DefinitionResolver
