@@ -17,7 +17,6 @@ use Framework\Psr\Http\Factory\StreamFactoryInterface;
 use RuntimeException;
 
 
-
 class AppFactory
 {
     protected static ?Psr17FactoryProviderInterface $psr17FactoryProvider = null;
@@ -56,6 +55,53 @@ class AppFactory
             $routeCollector ?? static::$routeCollector,
             $routeResolver ?? static::$routeResolver,
             $middlewareDispatcher ?? static::$middlewareDispatcher
+        );
+    }
+
+    public static function createFromContainer(ContainerInterface $container): App
+    {
+        $responseFactory = $container->has(ResponseFactoryInterface::class)
+        && (
+        $responseFactoryFromContainer = $container->get(ResponseFactoryInterface::class)
+        ) instanceof ResponseFactoryInterface
+            ? $responseFactoryFromContainer
+            : self::determineResponseFactory();
+
+        $callableResolver = $container->has(CallableResolverInterface::class)
+        && (
+        $callableResolverFromContainer = $container->get(CallableResolverInterface::class)
+        ) instanceof CallableResolverInterface
+            ? $callableResolverFromContainer
+            : null;
+
+        $routeCollector = $container->has(RouteCollectorInterface::class)
+        && (
+        $routeCollectorFromContainer = $container->get(RouteCollectorInterface::class)
+        ) instanceof RouteCollectorInterface
+            ? $routeCollectorFromContainer
+            : null;
+
+        $routeResolver = $container->has(RouteResolverInterface::class)
+        && (
+        $routeResolverFromContainer = $container->get(RouteResolverInterface::class)
+        ) instanceof RouteResolverInterface
+            ? $routeResolverFromContainer
+            : null;
+
+        $middlewareDispatcher = $container->has(MiddlewareDispatcherInterface::class)
+        && (
+        $middlewareDispatcherFromContainer = $container->get(MiddlewareDispatcherInterface::class)
+        ) instanceof MiddlewareDispatcherInterface
+            ? $middlewareDispatcherFromContainer
+            : null;
+
+        return new App(
+            $responseFactory,
+            $container,
+            $callableResolver,
+            $routeCollector,
+            $routeResolver,
+            $middlewareDispatcher
         );
     }
 
@@ -104,5 +150,50 @@ class AppFactory
         }
 
         return $responseFactory;
+    }
+
+    public static function setPsr17FactoryProvider(Psr17FactoryProviderInterface $psr17FactoryProvider): void
+    {
+        static::$psr17FactoryProvider = $psr17FactoryProvider;
+    }
+
+    public static function setResponseFactory(ResponseFactoryInterface $responseFactory): void
+    {
+        static::$responseFactory = $responseFactory;
+    }
+
+    public static function setStreamFactory(StreamFactoryInterface $streamFactory): void
+    {
+        static::$streamFactory = $streamFactory;
+    }
+
+    public static function setContainer(ContainerInterface $container): void
+    {
+        static::$container = $container;
+    }
+
+    public static function setCallableResolver(CallableResolverInterface $callableResolver): void
+    {
+        static::$callableResolver = $callableResolver;
+    }
+
+    public static function setRouteCollector(RouteCollectorInterface $routeCollector): void
+    {
+        static::$routeCollector = $routeCollector;
+    }
+
+    public static function setRouteResolver(RouteResolverInterface $routeResolver): void
+    {
+        static::$routeResolver = $routeResolver;
+    }
+
+    public static function setMiddlewareDispatcher(MiddlewareDispatcherInterface $middlewareDispatcher): void
+    {
+        static::$middlewareDispatcher = $middlewareDispatcher;
+    }
+
+    public static function setSlimHttpDecoratorsAutomaticDetection(bool $enabled): void
+    {
+        static::$slimHttpDecoratorsAutomaticDetectionEnabled = $enabled;
     }
 }
