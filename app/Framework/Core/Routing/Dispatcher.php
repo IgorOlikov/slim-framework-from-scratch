@@ -13,8 +13,6 @@ use Override;
 use function Framework\FastRouter\cachedDispatcher;
 use function Framework\FastRouter\simpleDispatcher;
 
-require __DIR__ . '/../../FastRouter/functions.php';
-
 
 class Dispatcher implements DispatcherInterface
 {
@@ -33,9 +31,6 @@ class Dispatcher implements DispatcherInterface
         $dispatcher = $this->createDispatcher();
 
         $results = $dispatcher->dispatch($method, $uri);
-
-
-        //dd($results[1][0]);
 
         return new RoutingResults($this, $method, $uri, $results[0], $results[1][0], $results[2]);
     }

@@ -14,7 +14,7 @@ class IndexController
 
         $response->getBody()->write('abc');
 
-        return $response;
+       // return $response;
     }
 
 }
