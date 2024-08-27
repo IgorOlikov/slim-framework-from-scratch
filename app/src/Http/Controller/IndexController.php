@@ -10,11 +10,9 @@ class IndexController
 {
     public function index(Request $request, Response $response): Response
     {
-        echo 'controller';
+        $response->getBody()->write('index controller - index method');
 
-        $response->getBody()->write('abc');
-
-       // return $response;
+        return $response;
     }
 
 }
