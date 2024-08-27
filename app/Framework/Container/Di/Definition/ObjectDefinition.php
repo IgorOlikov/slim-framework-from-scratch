@@ -2,6 +2,8 @@
 
 namespace Framework\Container\Di\Definition;
 
+use Framework\Container\Di\Definition\ObjectDefinition\MethodInjection;
+use Framework\Container\Di\Definition\ObjectDefinition\PropertyInjection;
 use ReflectionClass;
 
 class ObjectDefinition implements Definition
