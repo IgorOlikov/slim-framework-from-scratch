@@ -1,0 +1,56 @@
+<?php
+
+namespace Framework\Container\Di\Definition;
+
+use Framework\Psr\Container\ContainerInterface;
+
+class Reference implements Definition, SelfResolvingDefinition
+{
+    private string $name = '';
+
+    /**
+     * @param string $targetEntryName Name of the target entry
+     */
+    public function __construct(
+        private string $targetEntryName,
+    ) {
+    }
+
+    public function getName() : string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name) : void
+    {
+        $this->name = $name;
+    }
+
+    public function getTargetEntryName() : string
+    {
+        return $this->targetEntryName;
+    }
+
+    public function resolve(ContainerInterface $container) : mixed
+    {
+        return $container->get($this->getTargetEntryName());
+    }
+
+    public function isResolvable(ContainerInterface $container) : bool
+    {
+        return $container->has($this->getTargetEntryName());
+    }
+
+    public function replaceNestedDefinitions(callable $replacer) : void
+    {
+        // no nested definitions
+    }
+
+    public function __toString() : string
+    {
+        return sprintf(
+            'get(%s)',
+            $this->targetEntryName
+        );
+    }
+}
