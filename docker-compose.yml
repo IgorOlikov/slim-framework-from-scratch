@@ -20,6 +20,10 @@ services:
         - ./app:/app
       environment:
         APP_DEBUG: 1
+        DB_HOST: ${DB_HOST}
+        DB_USER: ${DB_USER}
+        DB_NAME: ${DB_NAME}
+        DB_PASSWORD: ${DB_PASSWORD}
       depends_on:
         - nginx
 

@@ -10,19 +10,12 @@ use Framework\Core\Factory\AppFactory;
 require __DIR__ . '/../vendor/autoload.php';
 
 
-$definitions = [
-    //ServiceInterface::class => create(TestService::class)->constructor('ivan', 'ivanov'),
+$definitions = require_once __DIR__ . '/../src/Config/definitions.php';
 
-    //ServiceInterface::class => new TestService('ivan', 'ivanov'),
-
-    ServiceInterface::class => factory(function () {
-        return new TestService('ivan', 'ivanov');
-    }),
-
-];
 
 
 $container = Container::create($definitions);
+
 $app = Bridge::create($container);
 
 
