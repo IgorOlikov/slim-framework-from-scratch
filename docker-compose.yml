@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
     nginx:
-      #container_name: nginx
       build:
         context: docker
         dockerfile: dev/nginx/Dockerfile
@@ -12,7 +11,6 @@ services:
         - "80:80"
 
     fpm:
-      #container_name: fpm
       build:
         context: docker
         dockerfile: dev/php-fpm/Dockerfile
@@ -28,7 +26,6 @@ services:
         - nginx
 
     cli:
-      #container_name: cli
       build:
         context: docker
         dockerfile: dev/php-cli/Dockerfile
