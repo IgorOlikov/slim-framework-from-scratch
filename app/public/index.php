@@ -1,12 +1,33 @@
 <?php
 
 use App\Http\Controller\IndexController;
+use App\Http\Services\Interfaces\ServiceInterface;
+use App\Http\Services\TestService;
+use Framework\Container\Bridge\Bridge;
+use Framework\Container\Di\Container;
 use Framework\Core\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 
-$app = AppFactory::create();
+//$app = AppFactory::create();
+
+
+$definitions = [
+    //ServiceInterface::class => create(TestService::class)->constructor('ivan', 'ivanov'),
+
+    ServiceInterface::class => new TestService('ivan', 'ivanov'),
+
+];
+
+
+$container = Container::create($definitions);
+
+
+
+
+$app = Bridge::create();
+
 
 $app->addErrorMiddleware(true, true, true);
 
