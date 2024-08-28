@@ -10,9 +10,6 @@ use Framework\Core\Factory\AppFactory;
 require __DIR__ . '/../vendor/autoload.php';
 
 
-//$app = AppFactory::create();
-
-
 $definitions = [
     //ServiceInterface::class => create(TestService::class)->constructor('ivan', 'ivanov'),
 
@@ -26,11 +23,7 @@ $definitions = [
 
 
 $container = Container::create($definitions);
-
-
-
-
-$app = Bridge::create();
+$app = Bridge::create($container);
 
 
 $app->addErrorMiddleware(true, true, true);
