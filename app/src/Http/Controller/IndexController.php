@@ -4,6 +4,7 @@ namespace App\Http\Controller;
 
 use App\Http\Services\Interfaces\ServiceInterface;
 use App\Http\Services\TestService;
+use Doctrine\ORM\EntityManagerInterface;
 use Framework\Psr\Http\Message\ResponseInterface as Response;
 use Framework\Psr\Http\Message\RequestInterface as Request;
 
@@ -11,16 +12,16 @@ use Framework\Psr\Http\Message\RequestInterface as Request;
 class IndexController
 {
 
-    protected ServiceInterface $testService;
 
-    public function __construct(ServiceInterface $testService)
+    public function __construct(protected EntityManagerInterface $entityManager)
     {
-        $this->testService = $testService;
     }
 
     public function index(Request $request, Response $response): Response
     {
-        $response->getBody()->write($this->testService->getFullName());
+        $conn = $this->entityManager->getConnection();
+
+        dd($conn);
 
         return $response;
     }

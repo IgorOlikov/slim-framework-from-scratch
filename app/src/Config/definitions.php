@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
 use Framework\Psr\Container\ContainerInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use function App\env;
 
 return [
@@ -25,7 +27,9 @@ return [
             $doctrineSettings['entities_dir'],
             $doctrineSettings['dev_mode'],
             $doctrineSettings['proxy_dir'],
-            $doctrineSettings['cache_dir']
+            $doctrineSettings['cache_dir'] !== null
+                ? new FilesystemAdapter('', 0, $doctrineSettings['cache_dir'])
+                : new ArrayAdapter()
         );
 
         return new EntityManager(
@@ -56,7 +60,9 @@ return [
                 'dbname' => env('DB_NAME'),
                 'charset' => 'urf-8'
             ],
-            'entities_dir' => __DIR__ . '/../Http/Entity'
+            'entities_dir' =>  [
+                __DIR__ . '/../Http/Entity'
+            ],
         ],
     ],
 
