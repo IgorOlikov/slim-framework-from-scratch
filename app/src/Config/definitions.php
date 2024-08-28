@@ -54,10 +54,10 @@ return [
             'proxy_dir' => __DIR__ . '/../../var/cache/doctrine/proxy',
             'connection' => [
                 'driver' => 'pdo_pgsql',
-                'host' => env('DB_HOST'),
-                'user' => env('DB_USER'),
-                'password' => env('DB_PASSWORD'),
-                'dbname' => env('DB_NAME'),
+                'host' => env('POSTGRES_HOST'),
+                'user' => env('POSTGRES_USER'),
+                'password' => env('POSTGRES_PASSWORD'),
+                'dbname' => env('POSTGRES_DB'),
                 'charset' => 'urf-8'
             ],
             'entities_dir' =>  [
