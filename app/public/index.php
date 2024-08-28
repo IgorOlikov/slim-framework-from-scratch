@@ -16,7 +16,11 @@ require __DIR__ . '/../vendor/autoload.php';
 $definitions = [
     //ServiceInterface::class => create(TestService::class)->constructor('ivan', 'ivanov'),
 
-    ServiceInterface::class => new TestService('ivan', 'ivanov'),
+    //ServiceInterface::class => new TestService('ivan', 'ivanov'),
+
+    ServiceInterface::class => factory(function () {
+        return new TestService('ivan', 'ivanov');
+    }),
 
 ];
 

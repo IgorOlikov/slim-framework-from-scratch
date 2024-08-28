@@ -2,6 +2,7 @@
 
 namespace Framework\Core\Routing;
 
+use Framework\Core\Handlers\Strategies\RequestHandler;
 use Framework\Core\Handlers\Strategies\RequestResponse;
 use Framework\Core\Interfaces\AdvancedCallableResolverInterface;
 use Framework\Core\Interfaces\CallableResolverInterface;
