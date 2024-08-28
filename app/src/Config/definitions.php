@@ -17,7 +17,6 @@ return [
         return new TestService('ivan', 'ivanov');
     }),
 
-
     EntityManagerInterface::class => static function (ContainerInterface $container): EntityManagerInterface {
 
         $doctrineSettings = $container->get('config')['doctrine'];
