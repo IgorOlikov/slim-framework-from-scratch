@@ -38,7 +38,6 @@ services:
         APP_DEBUG: 1
 
     postgresql:
-      container_name: postgresql
       image: postgres:16-alpine3.18
       environment:
         POSTGRES_HOST: postgresql
