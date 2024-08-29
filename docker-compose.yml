@@ -18,10 +18,10 @@ services:
         - ./app:/app
       environment:
         APP_DEBUG: 1
-        POSTGRES_HOST: postgresql
-        POSTGRES_USER: app
-        POSTGRES_DB: app
-        POSTGRES_PASSWORD: password
+        POSTGRES_HOST: ${POSTGRES_HOST}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       depends_on:
         - nginx
 
@@ -33,14 +33,19 @@ services:
         - ./app:/app
       environment:
         APP_DEBUG: 1
+        POSTGRES_HOST: ${POSTGRES_HOST}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
     postgresql:
       image: postgres:16-alpine3.18
       environment:
-        POSTGRES_HOST: postgresql
-        POSTGRES_USER: app
-        POSTGRES_DB: app
-        POSTGRES_PASSWORD: password
+        APP_DEBUG: 1
+        POSTGRES_HOST: ${POSTGRES_HOST}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       volumes:
         - ./docker/postgresql:/var/lib/postgresql/data
       ports:

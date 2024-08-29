@@ -4,9 +4,17 @@ use App\Http\Services\Interfaces\ServiceInterface;
 use App\Http\Services\TestService;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
+use Doctrine\Migrations\Tools\Console\Command\LatestCommand;
+use Doctrine\Migrations\Tools\Console\Command\ListCommand;
+use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
+use Doctrine\Migrations\Tools\Console\Command\StatusCommand;
+use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider;
 use Framework\Psr\Container\ContainerInterface;
 use Framework\Psr\Http\Factory\ResponseFactoryInterface;
 use Framework\Psr\Http\Factory\ServerRequestFactoryInterface;
@@ -21,6 +29,7 @@ use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
 use function App\env;
 
+
 return [
 
     ServerRequestFactoryInterface::class => static fn(): ServerRequestFactoryInterface => new ServerRequestFactory(),
@@ -29,7 +38,6 @@ return [
     ServiceInterface::class => factory(function () {
         return new TestService('ivan', 'ivanov');
     }),
-
 
     /** custom psr7 not compatible with official php-fig psr7 !!!
     'csrf' => static function (ResponseFactoryInterface $responseFactory) {
@@ -97,6 +105,14 @@ return [
         return $entityManager->getConnection();
     },
 
+    //commands
+    EntityManagerProvider::class => static function (ContainerInterface $container): EntityManagerProvider {
+        return new EntityManagerProvider\SingleManagerProvider($container->get(EntityManagerInterface::class));
+    },
+    ValidateSchemaCommand::class => static function (ContainerInterface $container): ValidateSchemaCommand {
+        return new ValidateSchemaCommand($container->get(EntityManagerProvider::class));
+    },
+
     'config' => [
         'doctrine' => [
             'dev_mode' => (bool)env('APP_DEBUG'),
@@ -124,6 +140,17 @@ return [
 
             ],
 
+        ],
+        'console' => [
+            'commands' => [
+                ValidateSchemaCommand::class,
+                ExecuteCommand::class,
+                MigrateCommand::class,
+                LatestCommand::class,
+                ListCommand::class,
+                StatusCommand::class,
+                UpToDateCommand::class
+            ],
         ],
     ],
 
