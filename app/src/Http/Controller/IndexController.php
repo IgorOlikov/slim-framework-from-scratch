@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Framework\Psr\Http\Message\ResponseInterface as Response;
 use Framework\Psr\Http\Message\RequestInterface as Request;
+use Twig\Environment;
 
 
 class IndexController
@@ -20,7 +21,7 @@ class IndexController
      */
     public function __construct(
         protected EntityManagerInterface $entityManager,
-        protected Connection $connection
+        protected Environment $view
     )
     {
     }
@@ -28,9 +29,7 @@ class IndexController
     public function index(Request $request, Response $response): Response
     {
 
-       $list = $this->connection->createSchemaManager()->listDatabases();
-
-       dd($list);
+       dd($this->view);
 
 
 

@@ -3,7 +3,11 @@ FROM php:8.3-cli-alpine
 RUN apk update && apk upgrade
 RUN apk --no-cache add autoconf g++ make && pecl install xdebug && docker-php-ext-enable xdebug && rm -rf /tmp/pear; apk del autoconf g++ make
 RUN apk add libpq-dev
-RUN docker-php-ext-install pdo pdo_pgsql pgsql
+RUN apk add icu-dev
+
+RUN docker-php-ext-configure intl
+
+RUN docker-php-ext-install pdo pdo_pgsql pgsql intl
 
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 

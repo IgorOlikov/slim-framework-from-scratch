@@ -10,19 +10,28 @@ use Framework\Core\Factory\AppFactory;
 require __DIR__ . '/../vendor/autoload.php';
 
 
+
+// container bindings
 $definitions = require_once __DIR__ . '/../src/Config/definitions.php';
 
-
-
+//build container
 $container = Container::create($definitions);
 
+//create app
 $app = Bridge::create($container);
 
 
+// main middlewares
 $app->addErrorMiddleware(true, true, true);
 
+
+// web routes
 $app->get('/', [IndexController::class, 'index']);
 
 
+//api routes
+
+
+// run app
 $app->run();
 
