@@ -24,7 +24,9 @@
         "doctrine/migrations": "^3.8",
         "symfony/cache": "^7.1",
         "twig/twig": "^3.12",
-        "twig/intl-extra": "^3.12"
+        "twig/intl-extra": "^3.12",
+        "symfony/console": "^7.1",
+        "slim/csrf": "^1.5"
     },
     "require-dev": {
         "symfony/var-dumper": "^7.1"

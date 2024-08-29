@@ -2,9 +2,7 @@
 
 namespace App\Http\Controller;
 
-use App\Http\Services\Interfaces\ServiceInterface;
-use App\Http\Services\TestService;
-use Doctrine\DBAL\Connection;
+
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Framework\Psr\Http\Message\ResponseInterface as Response;
@@ -12,12 +10,11 @@ use Framework\Psr\Http\Message\RequestInterface as Request;
 use Twig\Environment;
 
 
-class IndexController
+class WebController
 {
-
-
     /**
      * @param EntityManager $entityManager
+     * @param Environment $view
      */
     public function __construct(
         protected EntityManagerInterface $entityManager,
@@ -29,7 +26,7 @@ class IndexController
     public function index(Request $request, Response $response): Response
     {
 
-       dd($this->view);
+
 
 
 

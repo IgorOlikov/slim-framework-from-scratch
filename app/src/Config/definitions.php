@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Services\Interfaces\ServiceInterface;
 use App\Http\Services\TestService;
 use Doctrine\DBAL\Connection;
@@ -9,6 +8,11 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
 use Framework\Psr\Container\ContainerInterface;
+use Framework\Psr\Http\Factory\ResponseFactoryInterface;
+use Framework\Psr\Http\Factory\ServerRequestFactoryInterface;
+use Framework\Psr7\Factory\ResponseFactory;
+use Framework\Psr7\Factory\ServerRequestFactory;
+use Slim\Csrf\Guard;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Twig\Environment;
@@ -19,9 +23,19 @@ use function App\env;
 
 return [
 
+    ServerRequestFactoryInterface::class => static fn(): ServerRequestFactoryInterface => new ServerRequestFactory(),
+    ResponseFactoryInterface::class => static fn(): ResponseFactoryInterface => new ResponseFactory(),
+
     ServiceInterface::class => factory(function () {
         return new TestService('ivan', 'ivanov');
     }),
+
+
+    /** custom psr7 not compatible with official php-fig psr7 !!!
+    'csrf' => static function (ResponseFactoryInterface $responseFactory) {
+        return new Guard($responseFactory, ?!);
+    },
+    **/
 
     // twig template renderer
     Environment::class => static function (ContainerInterface $container): Environment {
@@ -56,7 +70,6 @@ return [
 
         return $environment;
     },
-
 
     EntityManagerInterface::class => static function (ContainerInterface $container): EntityManagerInterface {
         $doctrineSettings = $container->get('config')['doctrine'];
