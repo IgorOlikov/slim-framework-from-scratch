@@ -58,7 +58,7 @@ return [
                 'user' => env('POSTGRES_USER'),
                 'password' => env('POSTGRES_PASSWORD'),
                 'dbname' => env('POSTGRES_DB'),
-                'charset' => 'urf-8'
+                'charset' => 'utf-8'
             ],
             'entities_dir' =>  [
                 __DIR__ . '/../Http/Entity'
