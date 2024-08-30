@@ -112,7 +112,6 @@ return [
         return $entityManager->getConnection();
     },
 
-
     //for commands
     TableMetadataStorageConfiguration::class => static function () {
           $storageConfiguration = new TableMetadataStorageConfiguration();
@@ -179,7 +178,6 @@ return [
         $factory = $container->get(DependencyFactory::class);
         return new GenerateCommand($factory);
     },
-
 
     'config' => [
         'doctrine' => [
