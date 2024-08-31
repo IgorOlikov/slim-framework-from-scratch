@@ -19,6 +19,7 @@ use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand;
 use Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider;
 use Framework\Psr\Container\ContainerInterface;
@@ -178,6 +179,10 @@ return [
         $factory = $container->get(DependencyFactory::class);
         return new GenerateCommand($factory);
     },
+    DropCommand::class => static function (ContainerInterface $container) {
+        $factory = $container->get(DependencyFactory::class);
+        return new GenerateCommand($factory);
+    },
 
     'config' => [
         'doctrine' => [
@@ -215,7 +220,11 @@ return [
                 LatestCommand::class,
                 ListCommand::class,
                 StatusCommand::class,
-                UpToDateCommand::class
+                UpToDateCommand::class,
+                DropCommand::class,
+                DiffCommand::class,
+                GenerateCommand::class
+
             ],
         ],
     ],
