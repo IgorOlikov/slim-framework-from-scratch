@@ -22,4 +22,16 @@ class User
     #[Column(type: 'string')]
     private string $name;
 
+    public function setName(string $name ): User
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+
 }
